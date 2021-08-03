@@ -47,27 +47,28 @@ def game_core_v3(number):
         #print(f"границы {bounds}")    
         #print(f"предположение {predict}")
     return(count) # выход из цикла, если угадали   
- 
-def game_core_v4(number):  
+
+
+def game_core_v4(number):
     '''реализуем то же самое с помощью рекурсии, будет красивее 
-      почему то при вызове в score_game падает каждый раз при попытке угадать 76, просто вызов game_core_v4(76) 
-      работает корректно'''
-   
+       результат тот же'''
+    result_count = 0
     def recursion(number, count, bounds):
         predict = (bounds[0]+bounds[1])//2
-        #print(f"попытка {count}")
-        #print(f"границы {bounds}")    
-        #print(f"предположение {predict}")
-        #print(f"искомое {number}")
+        # print(f"попытка {count}")
+        # print(f"границы {bounds}")
+        # print(f"предположение {predict}")
+        # print(f"искомое {number}")
         if number == predict:
-            return count
+            nonlocal result_count
+            result_count = count
         elif number > predict:
             recursion(number, count+1, [predict, bounds[1]] )
         elif number < predict:
             recursion(number, count+1, [bounds[0], predict])
-        
-        
-    return recursion(number, 1, [1,101])
+    recursion(number, count=1, bounds=[0, 101])
+    return result_count
+
 
 def score_game(game_core):
     '''Запускаем игру 1000 раз, чтобы узнать, как быстро игра угадывает число'''
@@ -85,5 +86,3 @@ score_game(game_core_v1)
 score_game(game_core_v2)
 score_game(game_core_v3)
 score_game(game_core_v4)
-
-game_core_v4(76)
